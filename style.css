@@ -1,0 +1,47 @@
+:root { --bg-dark: #050505; --accent: #6366f1; --detail-neon: #6366f1; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-dark); color: white; overflow-x: hidden; margin: 0; }
+
+        #floatingEmojis { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .fly-emoji { position: absolute; font-size: 1.5rem; opacity: 0; will-change: transform, opacity; animation: flyAcross var(--dur) var(--delay) linear infinite; top: var(--top); left: -80px; }
+        @keyframes flyAcross {
+            0%   { transform: translateX(0) translateY(0) rotate(0deg); opacity: 0; }
+            50%  { opacity: 0.22; }
+            100% { transform: translateX(115vw) translateY(var(--drift)) rotate(var(--spin)); opacity: 0; }
+        }
+
+        .burst-emoji {
+            position: fixed; pointer-events: none; z-index: 100; font-size: 3rem;
+            animation: burstAnim 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+        @keyframes burstAnim {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.8) rotate(var(--tr)); opacity: 0; }
+        }
+
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.08); }
+        section { display: none; }
+        section.active { display: flex; animation: pageIn 0.5s ease forwards; }
+        @keyframes pageIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        .emotion-card {
+            position: relative; cursor: pointer; border-radius: 35px; padding: 2.5rem 1.5rem;
+            display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s cubic-bezier(.17,.67,.83,.67);
+        }
+        .emotion-card:hover { transform: translateY(-12px); border-color: var(--neon); background: rgba(255,255,255,0.05); }
+        
+        #d-emoji { font-size: 7rem; display: block; filter: drop-shadow(0 0 20px var(--detail-neon)); animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* Büyütülmüş Back Butonu Stili */
+        .back-btn {
+            position: absolute; top: 2.5rem; left: 2.5rem;
+            padding: 0.8rem 1.5rem; border-radius: 1rem;
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+            color: #999; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.1em;
+            transition: all 0.3s ease; z-index: 10;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.15); color: white; transform: translateX(-5px); border-color: var(--detail-neon); }
+
+        .inner-hidden { display: none !important; }
